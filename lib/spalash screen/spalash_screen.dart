@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:edtech_app/authentication/signin_page_screen.dart';
 import 'package:edtech_app/widget/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,6 +13,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Timer(
+        Duration(
+            seconds: 3),
+            () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SigninPageScreen()));
+            }
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 

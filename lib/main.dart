@@ -1,7 +1,13 @@
 import 'package:edtech_app/spalash%20screen/spalash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(statusBarColor: Colors.transparent)
+  );
+
   runApp(const MyApp());
 }
 
