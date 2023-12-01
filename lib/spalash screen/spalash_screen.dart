@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:edtech_app/authentication/auth_gate.dart';
 import 'package:edtech_app/authentication/signin_page_screen.dart';
+import 'package:edtech_app/screen/homepage_screen.dart';
 import 'package:edtech_app/widget/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -21,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Duration(
             seconds: 3),
             () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SigninPageScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AuthGate()));
             }
     );
     super.initState();
