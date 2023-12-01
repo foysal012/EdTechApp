@@ -1,4 +1,9 @@
+import 'package:edtech_app/authentication/auth_services.dart';
+import 'package:edtech_app/authentication/signup_page_screen.dart';
+import 'package:edtech_app/screen/dashboard_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class SigninPageScreen extends StatefulWidget {
   const SigninPageScreen({Key? key}) : super(key: key);
@@ -13,6 +18,26 @@ class _SigninPageScreenState extends State<SigninPageScreen> {
   TextEditingController passwordController = TextEditingController();
 
   bool obsecureText = true;
+
+  void signIn() async{
+      final firebaseAuth = Provider.of<AuthServices>(context, listen: false);
+
+      try{
+          firebaseAuth.signInWithEmailAndPassword(
+          emailController.text.toString(),
+          passwordController.text.toString(),
+          ).then((value){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully login")));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DashBoardPageScreen()));
+          }).onError((error, stackTrace) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
+          });
+
+      } catch (e){
+        print(e.toString());
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${e.toString()}")));
+      }
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -40,14 +65,29 @@ class _SigninPageScreenState extends State<SigninPageScreen> {
 
               SizedBox(height: height * 0.1,),
 
-              Container(
-                height: 250,
-                width: 250,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    //image: DecorationImage(image: AssetImage("images/w1.png"),fit: BoxFit.cover)
-                  color: Color(0xff4AA4D6)
-                ),
+              Stack(
+                children: [
+                  Container(
+                    height: 250,
+                    width: 250,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        //image: DecorationImage(image: AssetImage("images/w1.png"),fit: BoxFit.cover)
+                        color: Color(0xff4AA4D6)
+                    ),
+                  ),
+                  Positioned(
+                    top: 85,
+                      right: 70,
+                      child: Text("Sign in",
+                      style: GoogleFonts.ephesis(
+                        fontSize: 50,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      )
+                  )
+                ],
               ),
 
               SizedBox(height: height * 0.1,),
@@ -116,10 +156,31 @@ class _SigninPageScreenState extends State<SigninPageScreen> {
                 ),
               ),
 
-              SizedBox(height: height * 0.05,),
+              SizedBox(height: height * 0.015,),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: (){
+
+                  },
+                  child: Text("Fogot password?",
+                    style: TextStyle(
+                      color: Color(0xff4AA4D6),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: height * 0.03,),
 
               InkWell(
-                onTap: (){},
+                onTap: (){
+                  signIn();
+                 // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully login")));
+                },
                 child: Container(
                   height: 55,
                   width: 250,
@@ -128,7 +189,7 @@ class _SigninPageScreenState extends State<SigninPageScreen> {
                     color: Color(0xff4AA4D6),
                   ),
                     child: Center(
-                        child: Text("Login",
+                        child: Text("Sign in",
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
                           color: Colors.black,
@@ -141,6 +202,37 @@ class _SigninPageScreenState extends State<SigninPageScreen> {
               )
               ),
 
+              SizedBox(height: height * 0.05,),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Don't have an account?",
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                    ),
+                  ),
+
+                  SizedBox(width: width * 0.02,),
+
+                  InkWell(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignupPageScreen()));
+                    },
+                    child: Text("Sign up",
+                    style: TextStyle(
+                      color: Color(0xff4AA4D6),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                    ),
+                  ),
+
+
+                ],
+              ),
 
             ],
           ),
